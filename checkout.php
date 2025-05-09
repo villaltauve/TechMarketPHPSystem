@@ -8,7 +8,7 @@ if (!$isLoggedIn || empty($_SESSION['cart'])) {
     exit;
 }
 
-// Simulación de productos (esto será reemplazado por la base de datos)
+// Simulación de productos (reemplazar por la base de datos)
 $products = [
     1 => ['name' => 'Laptop Gaming Pro', 'price' => 1299.99],
     2 => ['name' => 'Smartphone Ultra', 'price' => 899.99],
@@ -121,7 +121,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </main>
 
     <footer>
-        <p>&copy; 2024 TechMarket. Todos los derechos reservados.</p>
+        <p>&copy; 2025 TechMarket ADS</p>
     </footer>
 
     <script src="assets/js/main.js"></script>

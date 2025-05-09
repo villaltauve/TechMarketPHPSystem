@@ -21,7 +21,7 @@ if (!isset($_SESSION['cart'])) {
     $_SESSION['cart'] = [];
 }
 
-// Simulación de verificación de stock (esto será reemplazado por la base de datos)
+// Simulación de verificación de stock (reemplazar por la base de datos)
 $products = [
     1 => ['stock' => 10],
     2 => ['stock' => 15],

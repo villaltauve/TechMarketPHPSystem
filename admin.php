@@ -8,7 +8,7 @@ if (!$isLoggedIn) {
     exit;
 }
 
-// Simulación de productos (esto será reemplazado por la base de datos)
+// Simulación de productos (reemplazar por la base de datos)
 $products = [
     [
         'id' => 1,
@@ -40,13 +40,12 @@ $products = [
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['add_product'])) {
         // Aquí se procesaría la adición del nuevo producto
-        // Por ahora solo simulamos la adición
         $newProduct = [
             'id' => count($products) + 1,
             'name' => $_POST['name'],
             'price' => floatval($_POST['price']),
             'stock' => intval($_POST['stock']),
-            'image' => 'assets/images/default.jpg', // Por defecto
+            'image' => 'assets/images/default.jpg', // imagenor defecto
             'description' => $_POST['description']
         ];
         
@@ -211,7 +210,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </main>
 
     <footer>
-        <p>&copy; 2024 TechMarket. Todos los derechos reservados.</p>
+        <p>&copy; 2025 TechMarket ADS</p>
     </footer>
 
     <script src="assets/js/main.js"></script>

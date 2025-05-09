@@ -20,7 +20,7 @@ $products = [
         'image' => 'assets/images/phone.jpg',
         'description' => 'Smartphone de última generación con cámara de alta resolución.'
     ],
-    [
+    [   
         'id' => 3,
         'name' => 'Monitor 4K',
         'price' => 499.99,
@@ -93,7 +93,7 @@ $products = [
     </main>
 
     <footer>
-        <p>&copy; 2024 TechMarket. Todos los derechos reservados.</p>
+        <p>&copy; 2025 TechMarket ADS</p>
     </footer>
 
     <script src="assets/js/main.js"></script>

@@ -10,7 +10,7 @@ if (!isset($_GET['id'])) {
 
 $productId = $_GET['id'];
 
-// Simulación de productos (esto será reemplazado por la base de datos)
+// Simulación de productos (reemplazar por la base de datos)
 $products = [
     1 => [
         'name' => 'Laptop Gaming Pro',
@@ -231,7 +231,7 @@ $product = $products[$productId];
     </main>
 
     <footer>
-        <p>&copy; 2024 TechMarket. Todos los derechos reservados.</p>
+        <p>&copy; 2025 TechMarket ADS</p>
     </footer>
 
     <script src="assets/js/main.js"></script>

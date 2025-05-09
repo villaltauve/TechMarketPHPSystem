@@ -13,7 +13,7 @@ if (!isset($_SESSION['cart'])) {
     $_SESSION['cart'] = [];
 }
 
-// Simulación de productos (esto será reemplazado por la base de datos)
+// Simulación de productos (reemplazar por la base de datos)
 $products = [
     1 => ['name' => 'Laptop Gaming Pro', 'price' => 1299.99],
     2 => ['name' => 'Smartphone Ultra', 'price' => 899.99],
@@ -96,7 +96,7 @@ foreach ($_SESSION['cart'] as $productId => $quantity) {
     </main>
 
     <footer>
-        <p>&copy; 2024 TechMarket. Todos los derechos reservados.</p>
+        <p>&copy; 2025 TechMarket ADS</p>
     </footer>
 
     <script src="assets/js/main.js"></script>

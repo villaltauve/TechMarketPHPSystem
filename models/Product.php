@@ -9,7 +9,6 @@ class Product {
     public $price;
     public $stock;
     public $image;
-    
 
     public function __construct($db) {
         $this->conn = $db;
@@ -31,32 +30,57 @@ class Product {
     }
 
     public function delete($id) {
-    $query = "DELETE FROM products WHERE id = :id";
-    $stmt = $this->conn->prepare($query);
-    $stmt->bindParam(':id', $id, PDO::PARAM_INT);
-    return $stmt->execute();
+        $query = "DELETE FROM products WHERE id = :id";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+        return $stmt->execute();
     }
 
     public function getById($id) {
-    $query = "SELECT * FROM products WHERE id = ?";
-    $stmt = $this->conn->prepare($query);
-    $stmt->execute([$id]);
-    return $stmt->fetch(PDO::FETCH_ASSOC);
-}
+        $query = "SELECT * FROM products WHERE id = ?";
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute([$id]);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
 
-public function update() {
-    $query = "UPDATE products SET name = :name, description = :description, price = :price, stock = :stock, image = :image WHERE id = :id";
-    $stmt = $this->conn->prepare($query);
+    public function update() {
+        // Si solo se está actualizando el stock
+        if (isset($this->stock) && !isset($this->name)) {
+            $query = "UPDATE products SET stock = :stock WHERE id = :id";
+            $stmt = $this->conn->prepare($query);
+            $stmt->bindParam(':stock', $this->stock);
+            $stmt->bindParam(':id', $this->id);
+            return $stmt->execute();
+        }
+        
+        // Si se está actualizando el producto completo
+        $query = "UPDATE products SET 
+                    name = :name, 
+                    description = :description, 
+                    price = :price, 
+                    stock = :stock, 
+                    image = :image 
+                  WHERE id = :id";
+        
+        $stmt = $this->conn->prepare($query);
 
-    $stmt->bindParam(':name', $this->name);
-    $stmt->bindParam(':description', $this->description);
-    $stmt->bindParam(':price', $this->price);
-    $stmt->bindParam(':stock', $this->stock);
-    $stmt->bindParam(':image', $this->image);
-    $stmt->bindParam(':id', $this->id);
+        // Sanitizar datos
+        $this->name = htmlspecialchars(strip_tags($this->name));
+        $this->description = htmlspecialchars(strip_tags($this->description));
+        $this->price = htmlspecialchars(strip_tags($this->price));
+        $this->stock = htmlspecialchars(strip_tags($this->stock));
+        $this->image = htmlspecialchars(strip_tags($this->image));
 
-    return $stmt->execute();
-}
+        // Vincular parámetros
+        $stmt->bindParam(':name', $this->name);
+        $stmt->bindParam(':description', $this->description);
+        $stmt->bindParam(':price', $this->price);
+        $stmt->bindParam(':stock', $this->stock);
+        $stmt->bindParam(':image', $this->image);
+        $stmt->bindParam(':id', $this->id);
+
+        return $stmt->execute();
+    }
 
     public function create() {
         $query = "INSERT INTO " . $this->table_name . " 
@@ -71,7 +95,6 @@ public function update() {
         $this->price = htmlspecialchars(strip_tags($this->price));
         $this->stock = htmlspecialchars(strip_tags($this->stock));
         $this->image = htmlspecialchars(strip_tags($this->image));
-       
         
         // Vincular parámetros
         $stmt->bindParam(":name", $this->name);
@@ -80,14 +103,9 @@ public function update() {
         $stmt->bindParam(":stock", $this->stock);
         $stmt->bindParam(":image", $this->image);
         
-        
         if ($stmt->execute()) {
             return true;
         }
-        return false;
-
-           // Si hay error, imprimirlo para depuración
-        error_log("Error al crear producto: " . implode(" ", $stmt->errorInfo()));
         return false;
     }
 }

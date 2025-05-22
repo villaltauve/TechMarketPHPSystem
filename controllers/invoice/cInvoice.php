@@ -10,14 +10,5 @@ if (!$isLoggedIn || !isset($_SESSION['invoice'])) {
 
 $invoice = $_SESSION['invoice'];
 
-// Simulación de productos (esto será reemplazado por la base de datos)
-$products = [
-    1 => ['name' => 'Laptop Gaming Pro', 'price' => 1299.99],
-    2 => ['name' => 'Smartphone Ultra', 'price' => 899.99],
-    3 => ['name' => 'Monitor 4K', 'price' => 499.99],
-    4 => ['name' => 'Teclado Mecánico RGB', 'price' => 129.99],
-    5 => ['name' => 'Mouse Gaming', 'price' => 79.99]
-];
-
 require_once("./views/invoice/vInvoice.php");
 ?>

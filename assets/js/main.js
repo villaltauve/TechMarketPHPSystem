@@ -21,9 +21,10 @@ document.addEventListener('DOMContentLoaded', function() {
         .then(data => {
             if (data.success) {
                 alert('Producto agregado al carrito');
-                updateCartUI();
+                // Recargar la página para actualizar el carrito
+                window.location.reload();
             } else {
-                alert('Error al agregar el producto al carrito');
+                alert(data.message || 'Error al agregar el producto al carrito');
             }
         })
         .catch(error => {

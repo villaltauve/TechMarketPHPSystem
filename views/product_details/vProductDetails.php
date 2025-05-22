@@ -50,33 +50,6 @@
             line-height: 1.6;
         }
 
-        .product-specs {
-            margin-top: 2rem;
-        }
-
-        .product-specs h3 {
-            color: var(--primary-color);
-            margin-bottom: 1rem;
-        }
-
-        .specs-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 1rem;
-        }
-
-        .spec-item {
-            background-color: var(--background-color);
-            padding: 1rem;
-            border-radius: 4px;
-        }
-
-        .spec-item strong {
-            display: block;
-            color: var(--primary-color);
-            margin-bottom: 0.5rem;
-        }
-
         @media (max-width: 768px) {
             .product-details {
                 grid-template-columns: 1fr;
@@ -102,18 +75,6 @@
                 <?php if ($isLoggedIn && $product['stock'] > 0): ?>
                     <button class="add-to-cart" data-product-id="<?php echo $productId; ?>">Agregar al Carrito</button>
                 <?php endif; ?>
-
-                <div class="product-specs">
-                    <h3>Especificaciones Técnicas</h3>
-                    <div class="specs-grid">
-                        <?php foreach ($product['specs'] as $spec => $value): ?>
-                            <div class="spec-item">
-                                <strong><?php echo $spec; ?></strong>
-                                <span><?php echo $value; ?></span>
-                            </div>
-                        <?php endforeach; ?>
-                    </div>
-                </div>
             </div>
         </div>
     </main>

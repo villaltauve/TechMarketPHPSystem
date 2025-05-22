@@ -32,7 +32,7 @@
             <h2>Productos Destacados</h2>
             <div class="products-grid">
                 <?php
-                foreach ($featuredProducts as $product): ?>
+                foreach ($products as $product): ?>
                     <div class="product-card">
                         <img src="<?php echo $product['image']; ?>" alt="<?php echo $product['name']; ?>">
                         <h3><?php echo $product['name']; ?></h3>

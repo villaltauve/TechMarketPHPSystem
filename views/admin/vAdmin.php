@@ -1,5 +1,3 @@
-
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -75,69 +73,86 @@
     </style>
 </head>
 <body>
-    
-    <?php require_once("./views/header/header.php");?>
 
-    <main>
-        <h2>Panel de Administración</h2>
-        
-        <div class="admin-container">
-            <div class="product-form">
-                <h3>Agregar Nuevo Producto</h3>
-                <form method="POST" enctype="multipart/form-data">
-                    <div class="form-group">
-                        <label for="name">Nombre del Producto:</label>
-                        <input type="text" id="name" name="name" required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="price">Precio:</label>
-                        <input type="number" id="price" name="price" step="0.01" required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="stock">Stock:</label>
-                        <input type="number" id="stock" name="stock" required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="description">Descripción:</label>
-                        <textarea id="description" name="description" required></textarea>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="image">Imagen del Producto:</label>
-                        <input type="file" id="image" name="image" accept="image/*">
-                    </div>
-                    
-                    <button type="submit" name="add_product">Agregar Producto</button>
-                </form>
-            </div>
+<?php require_once("./views/header/header.php");?>
 
-            <div class="product-list">
-                <h3>Productos Actuales</h3>
-                <?php foreach ($products as $product): ?>
-                    <div class="product-item">
-                        <img src="<?php echo $product['image']; ?>" alt="<?php echo $product['name']; ?>">
-                        <div class="product-info">
-                            <h3><?php echo $product['name']; ?></h3>
-                            <p>Precio: $<?php echo number_format($product['price'], 2); ?></p>
-                            <p>Stock: <?php echo $product['stock']; ?></p>
-                        </div>
-                        <div class="product-actions">
-                            <button class="edit-button">Editar</button>
-                            <button class="delete-button">Eliminar</button>
-                        </div>
-                    </div>
-                <?php endforeach; ?>
-            </div>
+<main>
+    <h2>Panel de Administración</h2>
+
+    <div class="admin-container">
+        <div class="product-form">
+            <?php $isEditing = isset($editingProduct); ?>
+            <h3><?php echo $isEditing ? 'Editar Producto' : 'Agregar Nuevo Producto'; ?></h3>
+            <form method="POST" enctype="multipart/form-data">
+                <?php if ($isEditing): ?>
+                    <input type="hidden" name="product_id" value="<?php echo $editingProduct['id']; ?>">
+                    <input type="hidden" name="current_image" value="<?php echo $editingProduct['image']; ?>">
+                <?php endif; ?>
+
+                <div class="form-group">
+                    <label for="name">Nombre del Producto:</label>
+                    <input type="text" id="name" name="name" required value="<?php echo $isEditing ? $editingProduct['name'] : ''; ?>">
+                </div>
+
+                <div class="form-group">
+                    <label for="price">Precio:</label>
+                    <input type="number" id="price" name="price" step="0.01" required value="<?php echo $isEditing ? $editingProduct['price'] : ''; ?>">
+                </div>
+
+                <div class="form-group">
+                    <label for="stock">Stock:</label>
+                    <input type="number" id="stock" name="stock" required value="<?php echo $isEditing ? $editingProduct['stock'] : ''; ?>">
+                </div>
+
+                <div class="form-group">
+                    <label for="description">Descripción:</label>
+                    <textarea id="description" name="description" required><?php echo $isEditing ? $editingProduct['description'] : ''; ?></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="image">Imagen del Producto:</label>
+                    <input type="file" id="image" name="image" accept="image/*">
+                    <?php if ($isEditing): ?>
+                        <p>Imagen actual: <img src="<?php echo $editingProduct['image']; ?>" width="50"></p>
+                    <?php endif; ?>
+                </div>
+
+                <button type="submit" name="<?php echo $isEditing ? 'update_product' : 'add_product'; ?>">
+                    <?php echo $isEditing ? 'Actualizar Producto' : 'Agregar Producto'; ?>
+                </button>
+            </form>
         </div>
-    </main>
 
-    <footer>
-        <p>&copy; 2025 TechMarket ADS</p>
-    </footer>
+        <div class="product-list">
+            <h3>Productos Actuales</h3>
+            <?php foreach ($products as $product): ?>
+                <div class="product-item">
+                    <img src="<?php echo $product['image']; ?>" alt="<?php echo $product['name']; ?>">
+                    <div class="product-info">
+                        <h3><?php echo $product['name']; ?></h3>
+                        <p>Precio: $<?php echo number_format($product['price'], 2); ?></p>
+                        <p>Stock: <?php echo $product['stock']; ?></p>
+                    </div>
+                    <div class="product-actions">
+                        <form method="POST" style="display:inline;">
+                            <input type="hidden" name="edit_product_id" value="<?php echo $product['id']; ?>">
+                            <button type="submit" class="edit-button">Editar</button>
+                        </form>
+                        <form method="POST" onsubmit="return confirm('¿Estás seguro de que deseas eliminar este producto?');">
+                            <input type="hidden" name="delete_product_id" value="<?php echo $product['id']; ?>">
+                            <button type="submit" class="delete-button">Eliminar</button>
+                        </form>
+                    </div>
+                </div>
+            <?php endforeach; ?>
+        </div>
+    </div>
+</main>
 
-    <script src="assets/js/main.js"></script>
+<footer>
+    <p>&copy; 2025 TechMarket ADS</p>
+</footer>
+
+<script src="assets/js/main.js"></script>
 </body>
-</html> 
+</html>

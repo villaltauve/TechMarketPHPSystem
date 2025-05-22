@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Función para agregar al carrito
     function addToCart(productId) {
-        fetch('add_to_cart.php', {
+        fetch('./controllers/cart/add_to_cart.php', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded',

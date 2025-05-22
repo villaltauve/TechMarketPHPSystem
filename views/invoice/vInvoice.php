@@ -1,27 +1,6 @@
-<?php
-session_start();
-$isLoggedIn = isset($_SESSION['logged_in']) && $_SESSION['logged_in'] === true;
-
-// Redirigir si no está logueado o no hay factura
-if (!$isLoggedIn || !isset($_SESSION['invoice'])) {
-    header('Location: index.php');
-    exit;
-}
-
-$invoice = $_SESSION['invoice'];
-
-// Simulación de productos (esto será reemplazado por la base de datos)
-$products = [
-    1 => ['name' => 'Laptop Gaming Pro', 'price' => 1299.99],
-    2 => ['name' => 'Smartphone Ultra', 'price' => 899.99],
-    3 => ['name' => 'Monitor 4K', 'price' => 499.99],
-    4 => ['name' => 'Teclado Mecánico RGB', 'price' => 129.99],
-    5 => ['name' => 'Mouse Gaming', 'price' => 79.99]
-];
-?>
-
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -92,7 +71,10 @@ $products = [
         }
 
         @media print {
-            header, footer, .print-button {
+
+            header,
+            footer,
+            .print-button {
                 display: none;
             }
 
@@ -104,20 +86,9 @@ $products = [
         }
     </style>
 </head>
-<body>
-    <header>
-        <nav>
-            <div class="logo">TechMarket</div>
-            <ul>
-                <li><a href="index.php">Inicio</a></li>
-                <li><a href="products.php">Productos</a></li>
-                <li><a href="cart.php">Carrito</a></li>
-                <li><a href="admin.php">Administrar</a></li>
-                <li><a href="?logout=1">Cerrar Sesión</a></li>
-            </ul>
-        </nav>
-    </header>
 
+<body>
+    <?php require_once("./views/header/header.php"); ?>
     <main>
         <div class="invoice">
             <div class="invoice-header">
@@ -177,4 +148,5 @@ $products = [
 
     <script src="assets/js/main.js"></script>
 </body>
-</html> 
+
+</html>

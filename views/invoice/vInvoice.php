@@ -7,27 +7,26 @@
     <title>Factura - TechMarket</title>
     <link rel="stylesheet" href="assets/css/style.css">
     <style>
-        .invoice {
+        .invoice-container {
             max-width: 800px;
             margin: 2rem auto;
             padding: 2rem;
             background-color: white;
-            box-shadow: var(--shadow);
             border-radius: 8px;
+            box-shadow: var(--shadow);
         }
 
         .invoice-header {
             text-align: center;
             margin-bottom: 2rem;
-            padding-bottom: 1rem;
-            border-bottom: 2px solid var(--primary-color);
         }
 
         .invoice-details {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 2rem;
             margin-bottom: 2rem;
+        }
+
+        .invoice-details p {
+            margin: 0.5rem 0;
         }
 
         .invoice-items {
@@ -38,7 +37,7 @@
 
         .invoice-items th,
         .invoice-items td {
-            padding: 0.75rem;
+            padding: 1rem;
             text-align: left;
             border-bottom: 1px solid #ddd;
         }
@@ -50,7 +49,7 @@
 
         .invoice-total {
             text-align: right;
-            font-size: 1.25rem;
+            font-size: 1.2rem;
             font-weight: bold;
         }
 
@@ -78,7 +77,7 @@
                 display: none;
             }
 
-            .invoice {
+            .invoice-container {
                 box-shadow: none;
                 margin: 0;
                 padding: 0;
@@ -90,25 +89,18 @@
 <body>
     <?php require_once("./views/header/header.php"); ?>
     <main>
-        <div class="invoice">
+        <div class="invoice-container">
             <div class="invoice-header">
-                <h1>Factura Electrónica</h1>
-                <p>TechMarket - Tu Tienda de Tecnología</p>
+                <h1>Factura</h1>
+                <p>Número: <?php echo $invoice['number']; ?></p>
+                <p>Fecha: <?php echo $invoice['date']; ?></p>
             </div>
 
             <div class="invoice-details">
-                <div class="invoice-info">
-                    <h3>Información de la Factura</h3>
-                    <p><strong>Número de Factura:</strong> <?php echo $invoice['number']; ?></p>
-                    <p><strong>Fecha:</strong> <?php echo $invoice['date']; ?></p>
-                </div>
-
-                <div class="customer-info">
-                    <h3>Información del Cliente</h3>
-                    <p><strong>Nombre:</strong> <?php echo $invoice['customer']['name']; ?></p>
-                    <p><strong>Teléfono:</strong> <?php echo $invoice['customer']['phone']; ?></p>
-                    <p><strong>Email:</strong> <?php echo $invoice['customer']['email']; ?></p>
-                </div>
+                <h2>Datos del Cliente</h2>
+                <p><strong>Nombre:</strong> <?php echo $invoice['customer']['name']; ?></p>
+                <p><strong>Teléfono:</strong> <?php echo $invoice['customer']['phone']; ?></p>
+                <p><strong>Email:</strong> <?php echo $invoice['customer']['email']; ?></p>
             </div>
 
             <table class="invoice-items">
@@ -121,15 +113,13 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <?php foreach ($invoice['items'] as $productId => $quantity): ?>
-                        <?php if (isset($products[$productId])): ?>
-                            <tr>
-                                <td><?php echo $products[$productId]['name']; ?></td>
-                                <td><?php echo $quantity; ?></td>
-                                <td>$<?php echo number_format($products[$productId]['price'], 2); ?></td>
-                                <td>$<?php echo number_format($products[$productId]['price'] * $quantity, 2); ?></td>
-                            </tr>
-                        <?php endif; ?>
+                    <?php foreach ($invoice['items'] as $item): ?>
+                    <tr>
+                        <td><?php echo $item['name']; ?></td>
+                        <td><?php echo $item['quantity']; ?></td>
+                        <td>$<?php echo number_format($item['price'], 2); ?></td>
+                        <td>$<?php echo number_format($item['price'] * $item['quantity'], 2); ?></td>
+                    </tr>
                     <?php endforeach; ?>
                 </tbody>
             </table>

@@ -21,33 +21,47 @@ if (!isset($_SESSION['cart'])) {
     $_SESSION['cart'] = [];
 }
 
-// Simulación de verificación de stock (reemplazar por la base de datos)
-$products = [
-    1 => ['stock' => 10],
-    2 => ['stock' => 15],
-    3 => ['stock' => 8],
-    4 => ['stock' => 20],
-    5 => ['stock' => 25]
-];
+// Incluir archivos necesarios
+require_once __DIR__ . '/../../config/database.php';
+require_once __DIR__ . '/../../models/Product.php';
 
-// Verificar si el producto existe y tiene stock
-if (!isset($products[$productId])) {
-    echo json_encode(['success' => false, 'message' => 'Producto no encontrado']);
-    exit;
-}
+try {
+    // Obtener conexión a la base de datos
+    $database = new Database();
+    $db = $database->getConnection();
 
-// Verificar stock
-$currentQuantity = isset($_SESSION['cart'][$productId]) ? $_SESSION['cart'][$productId] : 0;
-if ($currentQuantity >= $products[$productId]['stock']) {
-    echo json_encode(['success' => false, 'message' => 'No hay suficiente stock disponible']);
-    exit;
-}
+    $product = new Product($db);
+    $product->id = $productId;
+    $productData = $product->readOne();
 
-// Agregar producto al carrito
-if (isset($_SESSION['cart'][$productId])) {
-    $_SESSION['cart'][$productId]++;
-} else {
-    $_SESSION['cart'][$productId] = 1;
-}
+    // Verificar si el producto existe y tiene stock
+    if (!$productData) {
+        echo json_encode(['success' => false, 'message' => 'Producto no encontrado']);
+        exit;
+    }
 
-echo json_encode(['success' => true, 'message' => 'Producto agregado al carrito']); 
+    // Verificar stock
+    $currentQuantity = isset($_SESSION['cart'][$productId]) ? $_SESSION['cart'][$productId] : 0;
+    if ($currentQuantity >= $productData['stock']) {
+        echo json_encode(['success' => false, 'message' => 'No hay suficiente stock disponible']);
+        exit;
+    }
+
+    // Agregar producto al carrito
+    if (isset($_SESSION['cart'][$productId])) {
+        $_SESSION['cart'][$productId]++;
+    } else {
+        $_SESSION['cart'][$productId] = 1;
+    }
+
+    // Guardar el carrito en la sesión
+    $_SESSION['cart'] = array_filter($_SESSION['cart']);
+
+    echo json_encode([
+        'success' => true, 
+        'message' => 'Producto agregado al carrito',
+        'cart' => $_SESSION['cart']
+    ]);
+} catch (Exception $e) {
+    echo json_encode(['success' => false, 'message' => 'Error: ' . $e->getMessage()]);
+} 

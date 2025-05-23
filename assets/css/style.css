@@ -183,6 +183,22 @@ footer {
     box-shadow: var(--shadow);
 }
 
+.theme-toggle {
+    background: none;
+    border: none;
+    color: var(--text-color);
+    cursor: pointer;
+    padding: 0.5rem;
+    font-size: 1.2rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.theme-toggle:hover {
+    color: var(--primary-color);
+}
+
 @media (max-width: 768px) {
     nav {
         flex-direction: column;

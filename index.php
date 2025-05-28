@@ -33,6 +33,10 @@ switch ($acc) {
     case "Invoice":
         require_once("./controllers/invoice/cInvoice.php");
         break;
+    case "Register":
+        require_once("./controllers/register/cRegister.php");
+        break;
+
 
     default:
         // Opcional: incluir una página de error o redireccionar a Home

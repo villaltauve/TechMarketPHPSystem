@@ -45,3 +45,14 @@ CREATE TABLE order_details (
     FOREIGN KEY (order_id) REFERENCES orders(id),
     FOREIGN KEY (product_id) REFERENCES products(id)
 );
+
+INSERT INTO users (username, password, name, email, phone, role, registration_date)
+VALUES (
+    'Admin', 
+    '$2y$10$LoHnczZb3WyrCDKewAo0E.OJx7X67XleP870G3MM8N/iL7FnnkymG', 
+    'Administrador', 
+    'admin@techmarket.com', 
+    '7777-1234', 
+    'admin', 
+    NOW()
+);

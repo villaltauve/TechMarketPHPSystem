@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Productos - TechMarket</title>
     <link rel="stylesheet" href="assets/css/style.css">
+    <script src="assets/js/Products/Filtrado.js"></script>
     <style>
         .products-grid {
             display: grid;
@@ -117,23 +118,40 @@
     <main>
         <section class="products-section">
             <h2>Productos Disponibles</h2>
-            <div class="products-grid">
-                <?php foreach ($products as $product): ?>
-                    <div class="product-card">
-                        <div class="product-image-container">
-                            <img src="<?php echo $product['image']; ?>" alt="<?php echo $product['name']; ?>" class="product-image">
+            <!-- Filtros por precio -->
+            <div style="margin-bottom: 20px;">
+                <label for="ordenPrecio">Ordenar por precio:</label>
+                <select id="ordenPrecio" name="ordenPrecio">
+                    <option value="alto">Más alto</option>
+                    <option value="bajo">Más bajo</option>
+                </select>
+
+                <label for="precioMin">Precio mínimo:</label>
+                <input type="number" id="precioMin" name="precioMin" step="0.01" min="0">
+
+                <label for="precioMax">Precio máximo:</label>
+                <input type="number" id="precioMax" name="precioMax" step="0.01" min="0">
+            </div>
+
+            <div id="resultadoProductos">
+                <div class="products-grid">
+                    <?php foreach ($products as $product): ?>
+                        <div class="product-card">
+                            <div class="product-image-container">
+                                <img src="<?php echo $product['image']; ?>" alt="<?php echo $product['name']; ?>" class="product-image">
+                            </div>
+                            <h3><?php echo $product['name']; ?></h3>
+                            <p class="price">$<?php echo number_format($product['price'], 2); ?></p>
+                            <p class="stock">Stock disponible: <?php echo $product['stock']; ?></p>
+                            <?php if ($isLoggedIn && $product['stock'] > 0): ?>
+                                <button class="add-to-cart" data-product-id="<?php echo $product['id']; ?>">Agregar al
+                                    Carrito</button>
+                            <?php endif; ?>
+                            <a href="index.php?acc=ProductDetails&id=<?php echo $product['id']; ?>" class="view-details">Ver
+                                Detalles</a>
                         </div>
-                        <h3><?php echo $product['name']; ?></h3>
-                        <p class="price">$<?php echo number_format($product['price'], 2); ?></p>
-                        <p class="stock">Stock disponible: <?php echo $product['stock']; ?></p>
-                        <?php if ($isLoggedIn && $product['stock'] > 0): ?>
-                            <button class="add-to-cart" data-product-id="<?php echo $product['id']; ?>">Agregar al
-                                Carrito</button>
-                        <?php endif; ?>
-                        <a href="index.php?acc=ProductDetails&id=<?php echo $product['id']; ?>" class="view-details">Ver
-                            Detalles</a>
-                    </div>
-                <?php endforeach; ?>
+                    <?php endforeach; ?>
+                </div>
             </div>
         </section>
     </main>

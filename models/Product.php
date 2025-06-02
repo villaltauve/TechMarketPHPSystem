@@ -108,5 +108,25 @@ class Product {
         }
         return false;
     }
+
+    public function filtrarProductos($orden, $precioMin, $precioMax) {
+        $sql = "SELECT id, name, image, stock, price FROM products WHERE 1=1";
+
+        if ($precioMin !== '' && is_numeric($precioMin)) {
+            $sql .= " AND price >= " . floatval($precioMin);
+        }
+        if ($precioMax !== '' && is_numeric($precioMax) && floatval($precioMax) > 0) {
+            $sql .= " AND price <= " . floatval($precioMax);
+        }
+
+        if ($orden === 'alto') {
+            $sql .= " ORDER BY price DESC";
+        } elseif ($orden === 'bajo') {
+            $sql .= " ORDER BY price ASC";
+        }
+
+        $resultado = $this->conn->query($sql);
+        return $resultado;
+    }
 }
 ?>

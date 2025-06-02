@@ -11,9 +11,11 @@ $db = $database->getConnection();
 $orden = $_GET['ordenPrecio'] ?? '';
 $precioMin = $_GET['precioMin'] ?? '';
 $precioMax = $_GET['precioMax'] ?? '';
+$search = $_GET['search'] ?? '';
+$stock = $_GET['stock'] ?? '';
 
 $modelo = new Product($db);
-$resultado = $modelo->filtrarProductos($orden, $precioMin, $precioMax);
+$resultado = $modelo->filtrarProductos($orden, $precioMin, $precioMax, $search, $stock);
 
 $products = $resultado->fetchAll(PDO::FETCH_ASSOC);
 
@@ -37,6 +39,9 @@ if (count($products) > 0) {
     }
     echo '</div>';
 } else {
-    echo '<p>No se encontraron productos con esos filtros.</p>';
+    echo '<div class="no-results">
+            <p>No se encontraron productos con los filtros seleccionados.</p>
+            <button class="filter-button clear-filters" onclick="limpiarFiltros()">Limpiar Filtros</button>
+          </div>';
 }
 ?>

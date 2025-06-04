@@ -67,3 +67,15 @@ VALUES (
     'admin', 
     NOW()
 );
+
+
+CREATE TABLE resenas (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    producto_id INT NOT NULL,
+    usuario_id INT NOT NULL,
+    calificacion TINYINT NOT NULL CHECK (calificacion BETWEEN 1 AND 10),
+    comentario TEXT,
+    fecha DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (producto_id) REFERENCES products(id),
+    FOREIGN KEY (usuario_id) REFERENCES users(id)
+);

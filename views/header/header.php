@@ -10,6 +10,7 @@
                  <?php if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin'): ?>
                     <li><a href="index.php?acc=Admin">Administrar</a></li>
                 <?php endif; ?>
+                <li><a href="index.php?acc=Reseñas">Reseñas</a></li>
                 <li><a href="index.php?acc=logout">Cerrar Sesión</a></li>
             <?php endif; ?>
         </ul>

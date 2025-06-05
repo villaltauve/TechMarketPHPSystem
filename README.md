@@ -44,7 +44,7 @@ TechMarketPHPSystem/
 
 1. Clona este repositorio en tu directorio htdocs de XAMPP:
    ```bash
-   git clone [URL_DEL_REPOSITORIO]
+   git clone git@github.com:villaltauve/TechMarketPHPSystem.git
    ```
 
 2. Importa la base de datos:

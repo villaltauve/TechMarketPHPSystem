@@ -25,6 +25,17 @@ CREATE TABLE products (
     
 );
 
+-- Favorites table
+CREATE TABLE favorites (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    product_id INT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+    FOREIGN KEY (product_id) REFERENCES products(id) ON DELETE CASCADE,
+    UNIQUE KEY unique_favorite (user_id, product_id)
+);
+
 -- Orders table
 CREATE TABLE orders (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -44,4 +55,27 @@ CREATE TABLE order_details (
     unit_price DECIMAL(10,2) NOT NULL,
     FOREIGN KEY (order_id) REFERENCES orders(id),
     FOREIGN KEY (product_id) REFERENCES products(id)
+);
+
+INSERT INTO users (username, password, name, email, phone, role, registration_date)
+VALUES (
+    'Admin', 
+    '$2y$10$LoHnczZb3WyrCDKewAo0E.OJx7X67XleP870G3MM8N/iL7FnnkymG', 
+    'Administrador', 
+    'admin@techmarket.com', 
+    '7777-1234', 
+    'admin', 
+    NOW()
+);
+
+
+CREATE TABLE resenas (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    producto_id INT NOT NULL,
+    usuario_id INT NOT NULL,
+    calificacion TINYINT NOT NULL CHECK (calificacion BETWEEN 1 AND 10),
+    comentario TEXT,
+    fecha DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (producto_id) REFERENCES products(id),
+    FOREIGN KEY (usuario_id) REFERENCES users(id)
 );

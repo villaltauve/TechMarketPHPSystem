@@ -108,5 +108,49 @@ class Product {
         }
         return false;
     }
+
+    public function filtrarProductos($orden, $precioMin, $precioMax, $search = '', $stock = '') {
+        $sql = "SELECT id, name, image, stock, price FROM products WHERE 1=1";
+        $params = array();
+
+        // Filtro por búsqueda
+        if (!empty($search)) {
+            $sql .= " AND name LIKE :search";
+            $params[':search'] = '%' . $search . '%';
+        }
+
+        // Filtro por precio mínimo
+        if ($precioMin !== '' && is_numeric($precioMin)) {
+            $sql .= " AND price >= :precioMin";
+            $params[':precioMin'] = floatval($precioMin);
+        }
+
+        // Filtro por precio máximo
+        if ($precioMax !== '' && is_numeric($precioMax) && floatval($precioMax) > 0) {
+            $sql .= " AND price <= :precioMax";
+            $params[':precioMax'] = floatval($precioMax);
+        }
+
+        // Filtro por stock
+        if ($stock === 'disponible') {
+            $sql .= " AND stock > 0";
+        } elseif ($stock === 'agotado') {
+            $sql .= " AND stock = 0";
+        }
+
+        // Ordenamiento
+        if ($orden === 'alto') {
+            $sql .= " ORDER BY price DESC";
+        } elseif ($orden === 'bajo') {
+            $sql .= " ORDER BY price ASC";
+        }
+
+        $stmt = $this->conn->prepare($sql);
+        foreach ($params as $key => $value) {
+            $stmt->bindValue($key, $value);
+        }
+        $stmt->execute();
+        return $stmt;
+    }
 }
 ?>
